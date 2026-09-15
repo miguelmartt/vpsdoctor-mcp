@@ -56,7 +56,16 @@ EOF
 chmod 440 /etc/sudoers.d/vertiguard-mcp
 visudo -cf /etc/sudoers.d/vertiguard-mcp
 
-SSH_DIR="/home/$SVC_USER/.ssh"
+# Don't assume /home/$SVC_USER — useradd's home-directory default varies
+# by distro (and by whether $SVC_USER pre-existed). Ask the passwd
+# database instead, so this works the same on Debian/Ubuntu and on
+# RHEL/AlmaLinux.
+USER_HOME="$(getent passwd "$SVC_USER" | cut -d: -f6)"
+if [[ -z "$USER_HOME" ]]; then
+    echo "Could not determine home directory for '$SVC_USER' via getent." >&2
+    exit 1
+fi
+SSH_DIR="$USER_HOME/.ssh"
 KEY_PATH="$SSH_DIR/id_ed25519"
 mkdir -p "$SSH_DIR"
 if [[ ! -f "$KEY_PATH" ]]; then
@@ -81,6 +90,10 @@ chmod 700 "$SSH_DIR"
 chmod 600 "$SSH_DIR/authorized_keys"
 
 echo "==> Self-test: running snapshot.sh as $SVC_USER via sudo -n"
+# shellcheck disable=SC2024 # intentional: this script runs as root, and the
+# redirect below captures output of the *dropped-privilege* sudo -u command
+# in root's own /tmp — not an attempt to write a file the unprivileged user
+# couldn't otherwise reach.
 if sudo -u "$SVC_USER" sudo -n "$SCRIPTS_DIR/snapshot.sh" >/tmp/vertiguard-mcp-selftest.json 2>/tmp/vertiguard-mcp-selftest.err; then
     echo "    OK — sudoers rule and script both work:"
     sed 's/^/    /' /tmp/vertiguard-mcp-selftest.json

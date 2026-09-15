@@ -1,6 +1,6 @@
 [project]
 name = "vertiguard-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "MCP server to monitor and control a self-hosted Linux VPS (status, service restarts, fail2ban) from any MCP-compatible AI client."
 readme = "README.md"
 license = { text = "MIT" }

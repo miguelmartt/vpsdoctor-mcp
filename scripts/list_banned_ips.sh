@@ -16,8 +16,11 @@ status=$(fail2ban-client status "$jail" 2>&1) || {
     exit 1
 }
 
-ip_line=$(awk -F: '/IP list/ {print $2}' <<< "$status")
-ips=($ip_line)
+# Not awk -F: — an IPv6 address contains colons itself, which would shred
+# a "Banned IP list: 2001:db8::1 2001:db8::2" line across fields. Strip
+# everything up to the label instead, keeping the rest of the line intact.
+ip_line=$(sed -n 's/^.*[Bb]anned IP list:[[:space:]]*//p' <<< "$status")
+read -ra ips <<< "$ip_line"
 
 ips_json="["
 first=1

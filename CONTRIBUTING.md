@@ -15,7 +15,9 @@ Issues and pull requests are welcome.
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
+ruff check .
 pytest
+shellcheck scripts/*.sh   # if you touched anything under scripts/
 ```
 
 ## Reporting security issues
