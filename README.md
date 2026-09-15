@@ -86,9 +86,10 @@ Any other MCP client that can launch a stdio server works the same way.
 
 ## Security notes
 
-- The private key for the dedicated user should never leave the machine running the server. It is scoped, by the `sudoers` rule, to running the five scripts in this repo and nothing else.
+- The private key for the dedicated user should never leave the machine running the server. `install.sh` restricts it in `authorized_keys` (no pty, no port/agent/X11 forwarding) and, via `sudoers`, to running only the scripts in this repo — nothing else, even if that key is ever misused.
+- The server refuses unknown SSH host keys (no trust-on-first-use). If this is the first time connecting to the VPS from wherever the server runs, pin its host key first: `ssh-keyscan -H your-vps >> ~/.ssh/known_hosts`.
 - Review [`scripts/`](scripts/) before installing — they're short and meant to be read, not trusted blindly.
-- `vps_restart_service` and `vps_unban_ip` validate their input twice (once in Python, once in the shell script) before touching anything.
+- `vps_restart_service` and `vps_unban_ip` validate their input twice (once in Python, once in the shell script) before touching anything, and every executed restart/unban is logged at WARNING level for an audit trail.
 - This project does not collect telemetry and makes no network calls other than the SSH connection you configure.
 
 ## Extending it

@@ -86,9 +86,10 @@ Cualquier otro cliente MCP que pueda lanzar un servidor por stdio funciona igual
 
 ## Notas de seguridad
 
-- La clave privada del usuario dedicado nunca debe salir de la máquina donde corre el servidor. La regla `sudoers` la limita a ejecutar los cinco scripts de este repo y nada más.
+- La clave privada del usuario dedicado nunca debe salir de la máquina donde corre el servidor. `install.sh` la restringe en `authorized_keys` (sin pty, sin forwarding de puertos/agent/X11) y, mediante `sudoers`, a ejecutar solo los scripts de este repo — nada más, incluso si esa clave se filtrara alguna vez.
+- El servidor rechaza claves de host SSH desconocidas (sin confiar a la primera). Si es la primera vez que te conectas a ese VPS desde donde corre el servidor, fija su clave de host antes: `ssh-keyscan -H tu-vps >> ~/.ssh/known_hosts`.
 - Revisa [`scripts/`](scripts/) antes de instalar — son cortos y están pensados para leerse, no para confiar en ellos a ciegas.
-- `vps_restart_service` y `vps_unban_ip` validan su entrada dos veces (una en Python, otra en el script de shell) antes de tocar nada.
+- `vps_restart_service` y `vps_unban_ip` validan su entrada dos veces (una en Python, otra en el script de shell) antes de tocar nada, y cada reinicio/desbaneo ejecutado queda registrado en el log a nivel WARNING para tener rastro de auditoría.
 - Este proyecto no recoge telemetría ni hace ninguna llamada de red aparte de la conexión SSH que tú configures.
 
 ## Cómo ampliarlo

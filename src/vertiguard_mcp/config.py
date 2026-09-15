@@ -46,7 +46,7 @@ class Settings:
     command_timeout: int = 20
 
     @classmethod
-    def from_env(cls) -> "Settings":
+    def from_env(cls) -> Settings:
         host = os.getenv("VPS_HOST")
         user = os.getenv("VPS_USER")
         key_path = os.getenv("VPS_SSH_KEY_PATH")

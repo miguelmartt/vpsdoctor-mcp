@@ -1,6 +1,6 @@
 [project]
 name = "vertiguard-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server to monitor and control a self-hosted Linux VPS (status, service restarts, fail2ban) from any MCP-compatible AI client."
 readme = "README.md"
 license = { text = "MIT" }
@@ -20,7 +20,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0,<9"]
+dev = ["pytest>=8.0,<9", "ruff>=0.6,<1"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
 
 [project.urls]
 Homepage = "https://github.com/miguelmartt/vertiguard-mcp"
