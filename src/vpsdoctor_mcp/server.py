@@ -1,4 +1,4 @@
-"""vertiguard-mcp server: exposes VPS status and control as MCP tools.
+"""vpsdoctor-mcp server: exposes VPS status and control as MCP tools.
 
 Design notes
 ------------
@@ -39,10 +39,10 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
-logger = logging.getLogger("vertiguard-mcp")
+logger = logging.getLogger("vpsdoctor-mcp")
 
 mcp = FastMCP(
-    name="vertiguard-mcp",
+    name="vpsdoctor-mcp",
     instructions=(
         "Tools to check the status of, and carry out maintenance on, a "
         "self-hosted Linux VPS. Status tools are safe to call freely. "
@@ -211,7 +211,7 @@ def vps_unban_ip(ip: str, jail: str = "sshd", confirm: bool = False) -> dict:
 def main() -> None:
     _, error = _settings_or_error()
     if error:
-        raise SystemExit(f"vertiguard-mcp: {error['error']}")
+        raise SystemExit(f"vpsdoctor-mcp: {error['error']}")
     mcp.run(transport="stdio")
 
 

@@ -5,9 +5,9 @@ failures must come back as clean tool-error dicts, never raw exceptions.
 import paramiko
 import pytest
 
-from vertiguard_mcp.config import Settings
-from vertiguard_mcp.server import vps_status
-from vertiguard_mcp.ssh_client import RemoteCommandError, VpsSSH
+from vpsdoctor_mcp.config import Settings
+from vpsdoctor_mcp.server import vps_status
+from vpsdoctor_mcp.ssh_client import RemoteCommandError, VpsSSH
 
 
 def test_vps_status_reports_missing_config_instead_of_raising(monkeypatch):
@@ -24,9 +24,9 @@ def test_connection_failure_is_wrapped(monkeypatch):
     settings = Settings(
         vps_host="vps.example.com",
         vps_port=22,
-        vps_user="vertiguard-mcp",
+        vps_user="vpsdoctor-mcp",
         vps_ssh_key_path="/dev/null",
-        scripts_dir="/opt/vertiguard-mcp",
+        scripts_dir="/opt/vpsdoctor-mcp",
         allowed_services=["nginx"],
     )
 
@@ -44,9 +44,9 @@ def test_auth_failure_gives_a_specific_message(monkeypatch):
     settings = Settings(
         vps_host="vps.example.com",
         vps_port=22,
-        vps_user="vertiguard-mcp",
+        vps_user="vpsdoctor-mcp",
         vps_ssh_key_path="/dev/null",
-        scripts_dir="/opt/vertiguard-mcp",
+        scripts_dir="/opt/vpsdoctor-mcp",
         allowed_services=["nginx"],
     )
 

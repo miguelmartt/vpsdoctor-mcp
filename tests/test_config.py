@@ -1,6 +1,6 @@
 import pytest
 
-from vertiguard_mcp.config import ConfigError, Settings
+from vpsdoctor_mcp.config import ConfigError, Settings
 
 
 def test_from_env_requires_host_user_key(monkeypatch):
@@ -13,7 +13,7 @@ def test_from_env_requires_host_user_key(monkeypatch):
 
 def test_from_env_reads_values(monkeypatch):
     monkeypatch.setenv("VPS_HOST", "vps.example.com")
-    monkeypatch.setenv("VPS_USER", "vertiguard-mcp")
+    monkeypatch.setenv("VPS_USER", "vpsdoctor-mcp")
     monkeypatch.setenv("VPS_SSH_KEY_PATH", "~/.ssh/id_ed25519")
     monkeypatch.setenv("ALLOWED_SERVICES", "nginx, mariadb ,docker")
 
@@ -22,4 +22,4 @@ def test_from_env_reads_values(monkeypatch):
     assert settings.vps_host == "vps.example.com"
     assert settings.vps_port == 22
     assert settings.allowed_services == ["nginx", "mariadb", "docker"]
-    assert settings.scripts_dir == "/opt/vertiguard-mcp"
+    assert settings.scripts_dir == "/opt/vpsdoctor-mcp"

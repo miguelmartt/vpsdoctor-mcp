@@ -2,12 +2,12 @@
 whitelist enforcement, the two-step confirm gate, and IP validation.
 """
 
-from vertiguard_mcp.server import vps_restart_service, vps_unban_ip
+from vpsdoctor_mcp.server import vps_restart_service, vps_unban_ip
 
 
 def _set_env(monkeypatch):
     monkeypatch.setenv("VPS_HOST", "vps.example.com")
-    monkeypatch.setenv("VPS_USER", "vertiguard-mcp")
+    monkeypatch.setenv("VPS_USER", "vpsdoctor-mcp")
     monkeypatch.setenv("VPS_SSH_KEY_PATH", "~/.ssh/id_ed25519")
     monkeypatch.setenv("ALLOWED_SERVICES", "nginx,mariadb")
 

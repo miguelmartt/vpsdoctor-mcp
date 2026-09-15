@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Sets up the VPS side of vertiguard-mcp:
-#   1. A dedicated system user (default: vertiguard-mcp), not in any
+# Sets up the VPS side of vpsdoctor-mcp:
+#   1. A dedicated system user (default: vpsdoctor-mcp), not in any
 #      privileged group
-#   2. This scripts/ directory copied to /opt/vertiguard-mcp (or $SCRIPTS_DIR)
+#   2. This scripts/ directory copied to /opt/vpsdoctor-mcp (or $SCRIPTS_DIR)
 #   3. A sudoers rule letting that user run ONLY the scripts in that
 #      directory, with no password — nothing else
 #   4. A dedicated SSH key for that user, restricted in authorized_keys
@@ -16,8 +16,8 @@
 # runs a self-test at the end.
 set -euo pipefail
 
-SCRIPTS_DIR="${SCRIPTS_DIR:-/opt/vertiguard-mcp}"
-SVC_USER="${SVC_USER:-vertiguard-mcp}"
+SCRIPTS_DIR="${SCRIPTS_DIR:-/opt/vpsdoctor-mcp}"
+SVC_USER="${SVC_USER:-vpsdoctor-mcp}"
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [[ $EUID -ne 0 ]]; then
@@ -47,14 +47,14 @@ cp "$SOURCE_DIR"/allowed_services.conf "$SCRIPTS_DIR"/
 chmod 755 "$SCRIPTS_DIR"/*.sh
 chown -R root:root "$SCRIPTS_DIR"
 
-echo "==> Writing sudoers rule (/etc/sudoers.d/vertiguard-mcp)"
-cat > /etc/sudoers.d/vertiguard-mcp <<EOF
-# Managed by vertiguard-mcp/scripts/install.sh — do not edit by hand.
+echo "==> Writing sudoers rule (/etc/sudoers.d/vpsdoctor-mcp)"
+cat > /etc/sudoers.d/vpsdoctor-mcp <<EOF
+# Managed by vpsdoctor-mcp/scripts/install.sh — do not edit by hand.
 # $SVC_USER may run ONLY the scripts under $SCRIPTS_DIR, no password.
 $SVC_USER ALL=(root) NOPASSWD: $SCRIPTS_DIR/*.sh
 EOF
-chmod 440 /etc/sudoers.d/vertiguard-mcp
-visudo -cf /etc/sudoers.d/vertiguard-mcp
+chmod 440 /etc/sudoers.d/vpsdoctor-mcp
+visudo -cf /etc/sudoers.d/vpsdoctor-mcp
 
 # Don't assume /home/$SVC_USER — useradd's home-directory default varies
 # by distro (and by whether $SVC_USER pre-existed). Ask the passwd
@@ -75,7 +75,7 @@ else
     echo "==> SSH key already exists at $KEY_PATH, leaving it alone"
 fi
 
-# Restrict what this key can do even if it's used outside vertiguard-mcp:
+# Restrict what this key can do even if it's used outside vpsdoctor-mcp:
 # no interactive shell (no-pty), no use as a network pivot (no port/agent/
 # X11 forwarding), no ~/.ssh/rc. It can still run `exec_command`, which is
 # all this server needs.
@@ -94,22 +94,22 @@ echo "==> Self-test: running snapshot.sh as $SVC_USER via sudo -n"
 # redirect below captures output of the *dropped-privilege* sudo -u command
 # in root's own /tmp — not an attempt to write a file the unprivileged user
 # couldn't otherwise reach.
-if sudo -u "$SVC_USER" sudo -n "$SCRIPTS_DIR/snapshot.sh" >/tmp/vertiguard-mcp-selftest.json 2>/tmp/vertiguard-mcp-selftest.err; then
+if sudo -u "$SVC_USER" sudo -n "$SCRIPTS_DIR/snapshot.sh" >/tmp/vpsdoctor-mcp-selftest.json 2>/tmp/vpsdoctor-mcp-selftest.err; then
     echo "    OK — sudoers rule and script both work:"
-    sed 's/^/    /' /tmp/vertiguard-mcp-selftest.json
+    sed 's/^/    /' /tmp/vpsdoctor-mcp-selftest.json
 else
     echo "    FAILED — the sudoers rule or snapshot.sh has a problem:" >&2
-    sed 's/^/    /' /tmp/vertiguard-mcp-selftest.err >&2
-    rm -f /tmp/vertiguard-mcp-selftest.json /tmp/vertiguard-mcp-selftest.err
+    sed 's/^/    /' /tmp/vpsdoctor-mcp-selftest.err >&2
+    rm -f /tmp/vpsdoctor-mcp-selftest.json /tmp/vpsdoctor-mcp-selftest.err
     exit 1
 fi
-rm -f /tmp/vertiguard-mcp-selftest.json /tmp/vertiguard-mcp-selftest.err
+rm -f /tmp/vpsdoctor-mcp-selftest.json /tmp/vpsdoctor-mcp-selftest.err
 
 cat <<EOF
 
 Done — self-test passed. Next steps:
 
-1. Copy the PRIVATE key below to wherever vertiguard-mcp runs (your laptop,
+1. Copy the PRIVATE key below to wherever vpsdoctor-mcp runs (your laptop,
    the machine running your MCP client), then delete it from the VPS:
      $KEY_PATH
 

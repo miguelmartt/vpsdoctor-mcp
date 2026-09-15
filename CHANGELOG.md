@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [0.2.0] - 2026-09-15
+
+Renamed the project from `vertiguard-mcp` to `vpsdoctor-mcp` (package,
+CLI command, default system user, default scripts dir, sudoers file —
+everything). No functional changes. Breaking for anyone who'd already
+started using the old name.
+
 ## [0.1.2] - 2026-09-15
 
 Second review pass, requested explicitly to hunt for bugs and confirm no

@@ -1,4 +1,4 @@
-"""Configuration loading for vertiguard-mcp.
+"""Configuration loading for vpsdoctor-mcp.
 
 Everything the server needs comes from environment variables (loaded from a
 .env file if present). Nothing sensitive ever lives in code, so this module
@@ -72,7 +72,7 @@ class Settings:
             vps_port=int(os.getenv("VPS_PORT", "22")),
             vps_user=user,  # type: ignore[arg-type]
             vps_ssh_key_path=os.path.expanduser(key_path),  # type: ignore[arg-type]
-            scripts_dir=os.getenv("SCRIPTS_DIR", "/opt/vertiguard-mcp"),
+            scripts_dir=os.getenv("SCRIPTS_DIR", "/opt/vpsdoctor-mcp"),
             allowed_services=_split_csv(os.getenv("ALLOWED_SERVICES", "nginx")),
             backup_marker_path=os.getenv("BACKUP_MARKER_PATH") or None,
             ssh_connect_timeout=int(os.getenv("SSH_CONNECT_TIMEOUT", "10")),

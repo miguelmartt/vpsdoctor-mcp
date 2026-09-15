@@ -1,4 +1,4 @@
-# vertiguard-mcp
+# vpsdoctor-mcp
 
 [Leer en español](README.es.md)
 
@@ -11,7 +11,7 @@ Ask "how's the server doing?" and get back service states, disk and RAM usage, u
 Most VPS-monitoring MCP servers either want you to install a heavyweight agent, or hand the model unrestricted shell access. This one does neither:
 
 - **Just SSH.** No agent, no extra service running on the VPS beyond what you already have.
-- **A closed set of vetted scripts**, installed once under `/opt/vertiguard-mcp` on the VPS, each one small enough to read in a minute (see [`scripts/`](scripts/)).
+- **A closed set of vetted scripts**, installed once under `/opt/vpsdoctor-mcp` on the VPS, each one small enough to read in a minute (see [`scripts/`](scripts/)).
 - **A dedicated, unprivileged system user** on the VPS that can, via a narrow `sudoers` rule, run *only* those scripts — nothing else, no full root shell.
 - **Destructive actions require explicit confirmation.** Restarting a service or unbanning an IP always takes two calls: the first one reports what would happen and does nothing; only a second call with `confirm=true` actually runs it. This mirrors the human-in-the-loop approach used across VerticeDev's other open-source agents.
 - **A restart allowlist enforced twice** — once by the Python server, once again by the shell script itself on the VPS — so a bug on either side can't restart something you didn't intend to expose.
@@ -32,20 +32,20 @@ Most VPS-monitoring MCP servers either want you to install a heavyweight agent, 
 Copy the `scripts/` folder to the VPS and run the installer as root:
 
 ```bash
-scp -r scripts/ youruser@your-vps:/tmp/vertiguard-mcp-scripts
+scp -r scripts/ youruser@your-vps:/tmp/vpsdoctor-mcp-scripts
 ssh youruser@your-vps
-cd /tmp/vertiguard-mcp-scripts && sudo ./install.sh
+cd /tmp/vpsdoctor-mcp-scripts && sudo ./install.sh
 ```
 
-This creates a dedicated `vertiguard-mcp` system user, installs the scripts under `/opt/vertiguard-mcp`, writes a `sudoers` rule scoping that user to exactly those scripts, and generates a dedicated SSH keypair. It prints the next steps, including where to copy the private key.
+This creates a dedicated `vpsdoctor-mcp` system user, installs the scripts under `/opt/vpsdoctor-mcp`, writes a `sudoers` rule scoping that user to exactly those scripts, and generates a dedicated SSH keypair. It prints the next steps, including where to copy the private key.
 
-Edit `/opt/vertiguard-mcp/allowed_services.conf` on the VPS to list the services you actually want restartable (one per line — it ships with `nginx` and `mariadb` as examples).
+Edit `/opt/vpsdoctor-mcp/allowed_services.conf` on the VPS to list the services you actually want restartable (one per line — it ships with `nginx` and `mariadb` as examples).
 
 ### 2. Where the server runs
 
 ```bash
-git clone https://github.com/miguelmartt/vertiguard-mcp
-cd vertiguard-mcp
+git clone https://github.com/miguelmartt/vpsdoctor-mcp
+cd vpsdoctor-mcp
 pip install -e .
 cp .env.example .env   # then edit it
 ```
@@ -55,9 +55,9 @@ cp .env.example .env   # then edit it
 ```
 VPS_HOST=your-vps-ip-or-hostname
 VPS_PORT=22
-VPS_USER=vertiguard-mcp
-VPS_SSH_KEY_PATH=~/.ssh/vertiguard-mcp-key
-SCRIPTS_DIR=/opt/vertiguard-mcp
+VPS_USER=vpsdoctor-mcp
+VPS_SSH_KEY_PATH=~/.ssh/vpsdoctor-mcp-key
+SCRIPTS_DIR=/opt/vpsdoctor-mcp
 ALLOWED_SERVICES=nginx,mariadb
 ```
 
@@ -68,13 +68,13 @@ Claude Desktop / Claude Code (`claude_desktop_config.json` or equivalent — see
 ```json
 {
   "mcpServers": {
-    "vertiguard": {
-      "command": "vertiguard-mcp",
+    "vpsdoctor": {
+      "command": "vpsdoctor-mcp",
       "env": {
         "VPS_HOST": "your-vps-ip-or-hostname",
-        "VPS_USER": "vertiguard-mcp",
-        "VPS_SSH_KEY_PATH": "/absolute/path/to/vertiguard-mcp-key",
-        "SCRIPTS_DIR": "/opt/vertiguard-mcp",
+        "VPS_USER": "vpsdoctor-mcp",
+        "VPS_SSH_KEY_PATH": "/absolute/path/to/vpsdoctor-mcp-key",
+        "SCRIPTS_DIR": "/opt/vpsdoctor-mcp",
         "ALLOWED_SERVICES": "nginx,mariadb"
       }
     }
@@ -94,7 +94,7 @@ Any other MCP client that can launch a stdio server works the same way.
 
 ## Extending it
 
-Add a new script under `scripts/`, add it to the `sudoers` rule by re-running `install.sh`, and register a matching `@mcp.tool()` in `src/vertiguard_mcp/server.py`. Pull requests for additional read-only status checks are especially welcome.
+Add a new script under `scripts/`, add it to the `sudoers` rule by re-running `install.sh`, and register a matching `@mcp.tool()` in `src/vpsdoctor_mcp/server.py`. Pull requests for additional read-only status checks are especially welcome.
 
 ## Part of the VerticeDev open-source line
 
