@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "vertiguard": {
+      "command": "vertiguard-mcp",
+      "env": {
+        "VPS_HOST": "your-vps-ip-or-hostname",
+        "VPS_PORT": "22",
+        "VPS_USER": "vertiguard-mcp",
+        "VPS_SSH_KEY_PATH": "/absolute/path/to/vertiguard-mcp-key",
+        "SCRIPTS_DIR": "/opt/vertiguard-mcp",
+        "ALLOWED_SERVICES": "nginx,mariadb"
+      }
+    }
+  }
+}

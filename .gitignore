@@ -1,0 +1,23 @@
+# Secrets — never commit these
+.env
+*.pem
+id_ed25519*
+id_rsa*
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

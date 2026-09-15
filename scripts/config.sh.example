@@ -1,0 +1,7 @@
+# Copy this to config.sh (same directory) on the VPS and edit as needed.
+# It is sourced by snapshot.sh. Not required — everything here is optional.
+
+# Path whose modification time is reported as "age of last backup" in the
+# status snapshot. Point it at whatever your backup job touches on success
+# (a marker file, the last archive, etc.). Leave commented out to skip.
+# BACKUP_MARKER_PATH="/var/backups/.last-backup-ok"

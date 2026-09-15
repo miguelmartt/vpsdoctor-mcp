@@ -1,0 +1,37 @@
+[project]
+name = "vertiguard-mcp"
+version = "0.1.0"
+description = "MCP server to monitor and control a self-hosted Linux VPS (status, service restarts, fail2ban) from any MCP-compatible AI client."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "VerticeDev", url = "https://verticedev.es" }]
+requires-python = ">=3.10"
+keywords = ["mcp", "devops", "vps", "self-hosted", "linux", "ssh", "monitoring", "ai-agent"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Systems Administration",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "mcp[cli]>=1.20,<3",
+    "paramiko>=3.4,<4",
+    "python-dotenv>=1.0,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<9"]
+
+[project.urls]
+Homepage = "https://github.com/miguelmartt/vertiguard-mcp"
+Issues = "https://github.com/miguelmartt/vertiguard-mcp/issues"
+
+[project.scripts]
+vertiguard-mcp = "vertiguard_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vertiguard_mcp"]
