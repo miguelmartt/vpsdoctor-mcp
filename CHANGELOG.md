@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [0.2.1] - 2026-09-15
+
+- **Fix:** CI's `python` job was failing on a fresh install. `mcp` shipped a
+  2.0 release that renamed `FastMCP` to `MCPServer` and changed other APIs;
+  our dependency pin (`mcp[cli]>=1.20,<3`) allowed that 2.x line in, but the
+  code still imports `from mcp.server.fastmcp import FastMCP` (the 1.x API).
+  Pinned to `mcp[cli]>=1.20,<2` so installs consistently get a compatible
+  1.x release, matching what the code actually uses.
+
 ## [0.2.0] - 2026-09-15
 
 Renamed the project from `vertiguard-mcp` to `vpsdoctor-mcp` (package,
