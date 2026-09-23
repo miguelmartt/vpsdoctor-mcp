@@ -1,5 +1,5 @@
 # vpsdoctor-mcp
-
+<!-- shark-1 -->
 [Leer en español](README.es.md)
 
 An [MCP](https://modelcontextprotocol.io) server that lets any MCP-compatible AI client (Claude Desktop, Claude Code, Cursor, and others) check the status of, and carry out safe maintenance on, a self-hosted Linux VPS — over plain SSH, with no proprietary agent installed on the server.
