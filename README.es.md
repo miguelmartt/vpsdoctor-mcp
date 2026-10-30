@@ -98,7 +98,7 @@ Añade un script nuevo en `scripts/`, súmalo a la regla `sudoers` volviendo a e
 
 ## Parte de la línea open source de VerticeDev
 
-Proyecto hermano: [`vertice-automations`](https://github.com/miguelmartt/vertice-automations) (plantillas n8n reutilizables, incluida una versión por Telegram de esta misma idea de control de VPS).
+Proyecto hermano: [`vertice-automations`](https://github.com/miguelmartt/vertice-automations) (automatizaciones autoalojadas como servicios pequeños de Python, entre ellas VertiGuard: avisos y un bot DevOps por Telegram con esta misma idea de control de VPS).
 
 ## Licencia
 

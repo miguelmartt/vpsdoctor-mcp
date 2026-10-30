@@ -98,7 +98,7 @@ Add a new script under `scripts/`, add it to the `sudoers` rule by re-running `i
 
 ## Part of the VerticeDev open-source line
 
-Sibling project: [`vertice-automations`](https://github.com/miguelmartt/vertice-automations) (reusable n8n workflow templates, including a Telegram-based version of this same VPS-control idea).
+Sibling project: [`vertice-automations`](https://github.com/miguelmartt/vertice-automations) (self-hosted automations as small Python services, including VertiGuard: alerts and a Telegram DevOps bot built on this same VPS-control idea).
 
 ## License
 
